@@ -1,9 +1,10 @@
 import { useApiData } from '../api/useApiData.js';
+import { getJson } from '../api/client.js';
 
 type Activity = { _id?: string; type: string; minutes: number; points: number; occurredAt?: string };
 
 export default function Activities() {
-  const state = useApiData<{ activities: Activity[] }>('/api/activities');
+  const state = useApiData('/api/activities', getJson<{ activities: Activity[] }>);
   return <section><h2 className="h4">Activities</h2><p>Track student activity minutes and points.</p>
     {state.status === 'loading' && <p role="status">Loading activities...</p>}
     {state.status === 'error' && <p role="alert">Unable to load activities: {state.message}</p>}
